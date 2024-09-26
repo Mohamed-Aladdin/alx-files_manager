@@ -1,3 +1,4 @@
+import { getUserByToken } from '../utils/auth';
 import dbClient from '../utils/db';
 
 export default class UsersController {
@@ -21,5 +22,16 @@ export default class UsersController {
       id: insertedId,
       email,
     });
+  }
+
+  static async getMe(req, res) {
+    const fetchedUser = getUserByToken(req);
+
+    if (!fetchedUser) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    return res
+      .status(200)
+      .json({ email: fetchedUser.email, id: fetchedUser._id });
   }
 }

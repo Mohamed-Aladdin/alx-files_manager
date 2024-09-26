@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb';
+import mongo, { MongoClient } from 'mongodb';
 import { hashPassword } from './auth';
 
 class DBClient {
@@ -31,6 +31,11 @@ class DBClient {
 
   async getUserByEmail(email) {
     return await this.client.db().collection('users').findOne({ email });
+  }
+
+  async getUserById(id) {
+    const _id = new mongo.ObjectID(id);
+    return await this.client.db().collection('users').findOne({ _id });
   }
 
   async createUser(email, password) {
