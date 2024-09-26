@@ -38,10 +38,10 @@ export const getUserByToken = async (req) => {
     return null;
   }
   const userId = await redisClient.get(`auth_${token}`);
-  const fetchedUser = await dbClient.getUserById(userId);
 
-  if (!fetchedUser) {
+  if (!userId) {
     return null;
   }
+  const fetchedUser = await dbClient.getUserById(userId);
   return fetchedUser;
 };
