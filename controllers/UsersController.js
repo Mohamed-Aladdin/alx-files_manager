@@ -15,10 +15,10 @@ export default class UsersController {
     if (userFound) {
       res.status(400).json({ error: 'Already exist' });
     }
-    const id = await dbClient.createUser(email, password).insertedId;
+    const _id = await dbClient.createUser(email, password);
 
     res.status(201).json({
-      id,
+      id: _id,
       email,
     });
   }
