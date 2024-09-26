@@ -21,7 +21,7 @@ export default class AuthController {
     const { email, password } = getCreds(decoded);
     const fetchedUser = await dbClient.getUserByEmail(email);
 
-    if (!fetchedUser || fetchedUser.password != hashPassword(password)) {
+    if (!fetchedUser || fetchedUser.password !== hashPassword(password)) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
     const key = v4();
