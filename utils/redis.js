@@ -24,7 +24,7 @@ class RedisClient {
     return promisify(this.client.SET).bind(this.client)(
       key,
       value,
-      'Expiration',
+      'EX',
       duration
     );
   }
