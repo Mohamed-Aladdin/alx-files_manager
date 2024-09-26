@@ -15,7 +15,7 @@ export default class UsersController {
     if (userFound) {
       res.status(400).json({ error: 'Already exist' });
     }
-    const _id = await dbClient.createUser(email, password);
+    const { _id } = await dbClient.createUser(email, password);
 
     res.status(201).json({
       id: _id,
