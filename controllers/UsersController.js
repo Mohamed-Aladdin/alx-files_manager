@@ -32,6 +32,6 @@ export default class UsersController {
     }
     return res
       .status(200)
-      .json({ email: fetchedUser.email, id: fetchedUser._id });
+      .json({ id: fetchedUser._id, email: fetchedUser.email });
   }
 }

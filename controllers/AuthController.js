@@ -40,6 +40,6 @@ export default class AuthController {
       return res.status(401).json({ error: 'Unauthorized' });
     }
     await redisClient.del(`auth_${req.headers['x-token']}`);
-    return res.status(204);
+    return res.status(204).end();
   }
 }
