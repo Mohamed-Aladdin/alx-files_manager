@@ -34,7 +34,7 @@ export default class AuthController {
   }
 
   static async getDisconnect(req, res) {
-    const fetchedUser = getUserByToken(req);
+    const fetchedUser = await getUserByToken(req);
 
     if (!fetchedUser) {
       return res.status(401).json({ error: 'Unauthorized' });

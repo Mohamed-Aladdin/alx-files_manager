@@ -25,7 +25,7 @@ export default class UsersController {
   }
 
   static async getMe(req, res) {
-    const fetchedUser = getUserByToken(req);
+    const fetchedUser = await getUserByToken(req);
 
     if (!fetchedUser) {
       return res.status(401).json({ error: 'Unauthorized' });
