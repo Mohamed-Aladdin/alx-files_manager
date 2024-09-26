@@ -27,7 +27,7 @@ export default class AuthController {
     const key = v4();
     await redisClient.set(
       `auth_${key}`,
-      fetchedUser._id.toString(utf8),
+      fetchedUser._id.toString('utf8'),
       60 * 60 * 24
     );
     res.status(200).json({ token: key });
