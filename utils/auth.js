@@ -43,5 +43,5 @@ export const getUserByToken = async (req) => {
     return null;
   }
   const fetchedUser = await dbClient.getUserById(userId);
-  return fetchedUser;
+  return fetchedUser || null;
 };
