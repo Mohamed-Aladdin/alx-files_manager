@@ -95,7 +95,7 @@ export default class FilesController {
     }
     const id = req.params.id;
     const userId = fetchedUser._id.toString();
-    const file = await dbClient.getFileByUserId(fileId, userId);
+    const file = await dbClient.getFileByUserId(id, userId);
 
     if (!file) {
       return res.status(404).json({ error: 'Not found' });
