@@ -98,7 +98,7 @@ class DBClient {
     return await this.client
       .db()
       .collection('files')
-      .updateOne(fileFilter, { isPublic: status });
+      .updateOne(fileFilter, { $set: { isPublic: false } });
   }
 }
 
