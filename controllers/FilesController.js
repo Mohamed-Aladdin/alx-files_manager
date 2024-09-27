@@ -2,7 +2,7 @@ import { getUserByToken } from '../utils/auth';
 import dbClient from '../utils/db';
 import mongo from 'mongodb';
 import { tmpdir } from 'os';
-// import { promisify } from 'util';
+import { promisify } from 'util';
 // import Queue from 'bull/lib/queue';
 import { v4 } from 'uuid';
 import { mkdir, writeFile, stat, existsSync, realpath } from 'fs';
