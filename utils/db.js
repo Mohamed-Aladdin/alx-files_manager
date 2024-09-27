@@ -93,6 +93,13 @@ class DBClient {
   async createFile(file) {
     return await this.client.db().collection('files').insertOne(file);
   }
+
+  async updateFile(fileFilter, status) {
+    return await this.client
+      .db()
+      .collection('files')
+      .updateOne(fileFilter, { isPublic: status });
+  }
 }
 
 const dbClient = new DBClient();
