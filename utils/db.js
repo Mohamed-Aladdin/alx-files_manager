@@ -44,6 +44,15 @@ class DBClient {
       .collection('users')
       .insertOne({ email, password: hashPassword(password) });
   }
+
+  async getFileById(parentId) {
+    const _id = new mongo.ObjectID(parentId);
+    return await this.client.db().collection('files').findOne({ _id });
+  }
+
+  async createFile(file) {
+    return await this.client.db().collection('files').insertOne(file);
+  }
 }
 
 const dbClient = new DBClient();
