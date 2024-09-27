@@ -50,6 +50,46 @@ class DBClient {
     return await this.client.db().collection('files').findOne({ _id });
   }
 
+  async getFileByUserId(fileId, userId) {
+    return await this.client
+      .db()
+      .collection('files')
+      .findOne({
+        _id: new mongo.ObjectID(fileId),
+        userId: new mongo.ObjectID(userId),
+      });
+  }
+
+  async getAllFilesPaginated(filter) {
+    return await this.client
+      .db()
+      .collection('files')
+      .aggregate([
+        { $match: filter },
+        { $sort: { _id: -1 } },
+        { $skip: page * 20 },
+        { $limit: 20 },
+        {
+          $project: {
+            _id: 0,
+            id: '$_id',
+            userId: '$userId',
+            name: '$name',
+            type: '$type',
+            isPublic: '$isPublic',
+            parentId: {
+              $cond: {
+                if: { $eq: ['$parentId', '0'] },
+                then: 0,
+                else: '$parentId',
+              },
+            },
+          },
+        },
+      ])
+      .toArray();
+  }
+
   async createFile(file) {
     return await this.client.db().collection('files').insertOne(file);
   }

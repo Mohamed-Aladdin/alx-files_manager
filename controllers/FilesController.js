@@ -8,6 +8,7 @@ import { v4 } from 'uuid';
 import { mkdir, writeFile, stat, existsSync, realpath } from 'fs';
 import { join as joinPath } from 'path';
 import { contentType } from 'mime-types';
+import { error } from 'console';
 
 const mkDirAsync = promisify(mkdir);
 const writeFileAsync = promisify(writeFile);
@@ -84,5 +85,48 @@ export default class FilesController {
       isPublic,
       parentId: parentId === 0 ? '0' : new mongo.ObjectID(parentId),
     });
+  }
+
+  static async getShow(req, res) {
+    const fetchedUser = await getUserByToken(req);
+
+    if (!fetchedUser) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    const id = req.params.id;
+    const userId = fetchedUser._id.toString();
+    const file = await dbClient.getFileByUserId(fileId, userId);
+
+    if (!file) {
+      return res.status(404).json({ error: 'Not found' });
+    }
+    return res.status(200).json({
+      id,
+      userId,
+      name: file.name,
+      type: file.type,
+      isPublic: file.isPublic,
+      parentId: file.parentId.toString(),
+    });
+  }
+
+  static async getIndex(req, res) {
+    const fetchedUser = await getUserByToken(req);
+
+    if (!fetchedUser) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    const parentId = req.query.parentId || '0';
+    const page = /\d+/.test((req.query.page || '').toString())
+      ? Number.parseInt(req.query.page, 10)
+      : 0;
+    const fileFilter = {
+      userId: user._id,
+      parentId:
+        parentId === '0' ? parentId.toString() : new mongo.ObjectID(parentId),
+    };
+    const files = dbClient.getAllFilesPaginated(fileFilter);
+
+    return res.status(200).json(files);
   }
 }
