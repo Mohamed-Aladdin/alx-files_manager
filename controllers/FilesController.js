@@ -121,7 +121,7 @@ export default class FilesController {
       ? Number.parseInt(req.query.page, 10)
       : 0;
     const fileFilter = {
-      userId: user._id,
+      userId: fetchedUser._id,
       parentId:
         parentId === '0' ? parentId.toString() : new mongo.ObjectID(parentId),
     };
