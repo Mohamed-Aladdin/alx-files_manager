@@ -73,8 +73,8 @@ export default class FilesController {
       await writeFileAsync(localPath, Buffer.from(data, 'base64'));
       newFile.localPath = localPath;
     }
-    const insertInfo = await dbClient.createFile(newFile);
-    const fileId = insertInfo.insertedId.toString();
+    const insertedFile = await dbClient.createFile(newFile);
+    const fileId = insertedFile.insertedId.toString();
 
     return res.status(201).json({
       id: fileId,
