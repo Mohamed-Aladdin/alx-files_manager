@@ -60,7 +60,7 @@ class DBClient {
       });
   }
 
-  async getAllFilesPaginated(filter) {
+  async getAllFilesPaginated(filter, page) {
     return await this.client
       .db()
       .collection('files')

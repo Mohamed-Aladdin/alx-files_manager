@@ -125,7 +125,7 @@ export default class FilesController {
       parentId:
         parentId === '0' ? parentId.toString() : new mongo.ObjectID(parentId),
     };
-    const files = dbClient.getAllFilesPaginated(fileFilter);
+    const files = dbClient.getAllFilesPaginated(fileFilter, page);
 
     return res.status(200).json(files);
   }
