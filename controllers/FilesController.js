@@ -5,7 +5,7 @@ import { promisify } from 'util';
 import Queue from 'bull/lib/queue';
 import { v4 } from 'uuid';
 import {
-  mkdir, writeFile, stat, existsSync, realpath
+  mkdir, writeFile, stat, existsSync, realpath,
 } from 'fs';
 import { join as joinPath } from 'path';
 import { contentType } from 'mime-types';
@@ -60,8 +60,8 @@ export default class FilesController {
     }
     const userId = fetchedUser._id.toString();
     const baseDir = `${process.env.FOLDER_PATH || ''}`.trim().length > 0
-        ? process.env.FOLDER_PATH.trim()
-        : joinPath(tmpdir(), 'files_manager');
+      ? process.env.FOLDER_PATH.trim()
+      : joinPath(tmpdir(), 'files_manager');
     const newFile = {
       userId: new mongo.ObjectID(userId),
       name,
@@ -130,9 +130,9 @@ export default class FilesController {
     const fileFilter = parentId === '0'
       ? { userId: fetchedUser._id }
       : {
-          userId: fetchedUser._id,
-          parentId: new mongo.ObjectID(parentId),
-        };
+        userId: fetchedUser._id,
+        parentId: new mongo.ObjectID(parentId),
+      };
     const files = await dbClient.getAllFilesPaginated(fileFilter, page);
 
     return res.status(200).json(files);
