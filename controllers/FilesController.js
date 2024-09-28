@@ -1,6 +1,5 @@
+// import { error } from 'console';
 import { getUserByToken } from '../utils/auth';
-import dbClient from '../utils/db';
-import mongo from 'mongodb';
 import { tmpdir } from 'os';
 import { promisify } from 'util';
 import Queue from 'bull/lib/queue';
@@ -8,7 +7,8 @@ import { v4 } from 'uuid';
 import { mkdir, writeFile, stat, existsSync, realpath } from 'fs';
 import { join as joinPath } from 'path';
 import { contentType } from 'mime-types';
-import { error } from 'console';
+import dbClient from '../utils/db';
+import mongo from 'mongodb';
 
 const fileQueue = new Queue('thumbnail generation');
 const mkDirAsync = promisify(mkdir);
@@ -57,8 +57,7 @@ export default class FilesController {
       }
     }
     const userId = fetchedUser._id.toString();
-    const baseDir =
-      `${process.env.FOLDER_PATH || ''}`.trim().length > 0
+    const baseDir = `${process.env.FOLDER_PATH || ''}`.trim().length > 0
         ? process.env.FOLDER_PATH.trim()
         : joinPath(tmpdir(), 'files_manager');
     const newFile = {
@@ -126,13 +125,12 @@ export default class FilesController {
       ? Number.parseInt(req.query.page, 10)
       : 0;
 
-    const fileFilter =
-      parentId === '0'
-        ? { userId: fetchedUser._id }
-        : {
-            userId: fetchedUser._id,
-            parentId: new mongo.ObjectID(parentId),
-          };
+    const fileFilter = parentId === '0'
+      ? { userId: fetchedUser._id }
+      : {
+          userId: fetchedUser._id,
+          parentId: new mongo.ObjectID(parentId),
+        };
     const files = await dbClient.getAllFilesPaginated(fileFilter, page);
 
     return res.status(200).json(files);
@@ -157,7 +155,7 @@ export default class FilesController {
       userId: new mongo.ObjectID(userId),
     };
     await dbClient.updateFile(fileFilter, true);
-    res.status(200).json({
+    return res.status(200).json({
       id,
       userId,
       name: file.name,
@@ -186,7 +184,7 @@ export default class FilesController {
       userId: new mongo.ObjectID(userId),
     };
     await dbClient.updateFile(fileFilter, false);
-    res.status(200).json({
+    return res.status(200).json({
       id,
       userId,
       name: file.name,
@@ -226,7 +224,7 @@ export default class FilesController {
     const absoluteFilePath = await realpathAsync(filePath);
     res.setHeader(
       'Content-Type',
-      contentType(file.name) || 'text/plain; charset=utf-8'
+      contentType(file.name) || 'text/plain; charset=utf-8',
     );
 
     return res.status(200).sendFile(absoluteFilePath);
