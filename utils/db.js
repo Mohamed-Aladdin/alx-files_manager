@@ -1,5 +1,4 @@
-import { hashPassword } from './auth';
-
+const { hashPassword } = require('./auth');
 const { MongoClient, ObjectId } = require('mongodb');
 
 class DBClient {
