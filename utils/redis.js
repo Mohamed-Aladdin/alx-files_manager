@@ -9,7 +9,9 @@ class RedisClient {
       console.log('Redis client failed to connect:', err.toString());
     });
     this.connectionEstablished = true;
-    this.client.on('connect', () => (this.connectionEstablished = true));
+    this.client.on('connect', () => {
+      this.connectionEstablished = true;
+    });
   }
 
   isAlive() {
@@ -25,7 +27,7 @@ class RedisClient {
       key,
       value,
       'EX',
-      duration
+      duration,
     );
   }
 
