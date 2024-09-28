@@ -192,10 +192,10 @@ export default class FilesController {
   }
 
   static async getFile(req, res) {
-    const id = req.params.id;
-    const size = req.query.size || null;
     const fetchedUser = await getUserByToken(req);
     const userId = fetchedUser ? fetchedUser._id.toString() : '';
+    const id = req.params.id;
+    const size = req.query.size || null;
     const file = await dbClient.getFileById(id);
 
     if (!file || (!file.isPublic && file.userId.toString() !== userId)) {
