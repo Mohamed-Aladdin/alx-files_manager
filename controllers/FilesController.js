@@ -1,14 +1,16 @@
 // import { error } from 'console';
-import { getUserByToken } from '../utils/auth';
+import mongo from 'mongodb';
 import { tmpdir } from 'os';
 import { promisify } from 'util';
 import Queue from 'bull/lib/queue';
 import { v4 } from 'uuid';
-import { mkdir, writeFile, stat, existsSync, realpath } from 'fs';
+import {
+  mkdir, writeFile, stat, existsSync, realpath
+} from 'fs';
 import { join as joinPath } from 'path';
 import { contentType } from 'mime-types';
 import dbClient from '../utils/db';
-import mongo from 'mongodb';
+import { getUserByToken } from '../utils/auth';
 
 const fileQueue = new Queue('thumbnail generation');
 const mkDirAsync = promisify(mkdir);
