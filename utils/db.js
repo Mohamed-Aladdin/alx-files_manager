@@ -1,5 +1,6 @@
-import { MongoClient, ObjectId } from 'mongodb';
 import { hashPassword } from './auth';
+
+const { MongoClient, ObjectId } = require('mongodb');
 
 class DBClient {
   constructor() {
@@ -24,24 +25,24 @@ class DBClient {
   }
 
   async nbUsers() {
-    return this.client.db().collection('users').countDocuments();
+    return await this.client.db().collection('users').countDocuments();
   }
 
   async nbFiles() {
-    return this.client.db().collection('files').countDocuments();
+    return await this.client.db().collection('files').countDocuments();
   }
 
   async getUserByEmail(email) {
-    return this.client.db().collection('users').findOne({ email });
+    return await this.client.db().collection('users').findOne({ email });
   }
 
   async getUserById(id) {
     const _id = new ObjectId(id);
-    return this.client.db().collection('users').findOne({ _id });
+    return await this.client.db().collection('users').findOne({ _id });
   }
 
   async createUser(email, password) {
-    return this.client
+    return await this.client
       .db()
       .collection('users')
       .insertOne({ email, password: hashPassword(password) });
@@ -49,11 +50,11 @@ class DBClient {
 
   async getFileById(parentId) {
     const _id = new ObjectId(parentId);
-    return this.client.db().collection('files').findOne({ _id });
+    return await this.client.db().collection('files').findOne({ _id });
   }
 
   async getFileByUserId(fileId, userId) {
-    return this.client
+    return await this.client
       .db()
       .collection('files')
       .findOne({
@@ -63,7 +64,7 @@ class DBClient {
   }
 
   async getAllFilesPaginated(filter, page) {
-    return this.client
+    return await this.client
       .db()
       .collection('files')
       .aggregate([
@@ -93,11 +94,11 @@ class DBClient {
   }
 
   async createFile(file) {
-    return this.client.db().collection('files').insertOne(file);
+    return await this.client.db().collection('files').insertOne(file);
   }
 
   async updateFile(fileFilter, status) {
-    return this.client
+    return await this.client
       .db()
       .collection('files')
       .updateOne(fileFilter, { $set: { isPublic: status } });
