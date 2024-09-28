@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
 import {
@@ -7,7 +8,6 @@ import {
   hashPassword,
   getUserByToken,
 } from '../utils/auth';
-import { v4 } from 'uuid';
 
 export default class AuthController {
   static async getConnect(req, res) {
@@ -28,9 +28,9 @@ export default class AuthController {
     await redisClient.set(
       `auth_${key}`,
       fetchedUser._id.toString(),
-      60 * 60 * 24
+      60 * 60 * 24,
     );
-    res.status(200).json({ token: key });
+    return res.status(200).json({ token: key });
   }
 
   static async getDisconnect(req, res) {
