@@ -1,5 +1,5 @@
-const { hashPassword } = require('./auth');
 const { MongoClient, ObjectId } = require('mongodb');
+const { hashPassword } = require('./auth');
 
 class DBClient {
   constructor() {
