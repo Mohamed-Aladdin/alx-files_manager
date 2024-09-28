@@ -1,5 +1,4 @@
-import { MongoClient } from 'mongodb';
-import mongo from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import { hashPassword } from './auth';
 
 class DBClient {
@@ -37,7 +36,7 @@ class DBClient {
   }
 
   async getUserById(id) {
-    const _id = new mongo.ObjectID(id);
+    const _id = new ObjectId(id);
     return await this.client.db().collection('users').findOne({ _id });
   }
 
@@ -49,7 +48,7 @@ class DBClient {
   }
 
   async getFileById(parentId) {
-    const _id = new mongo.ObjectID(parentId);
+    const _id = new ObjectId(parentId);
     return await this.client.db().collection('files').findOne({ _id });
   }
 
@@ -58,8 +57,8 @@ class DBClient {
       .db()
       .collection('files')
       .findOne({
-        _id: new mongo.ObjectID(fileId),
-        userId: new mongo.ObjectID(userId),
+        _id: new ObjectId(fileId),
+        userId: new ObjectId(userId),
       });
   }
 
