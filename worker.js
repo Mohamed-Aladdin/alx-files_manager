@@ -1,7 +1,7 @@
 import { writeFile } from 'fs';
 import { promisify } from 'util';
 import Queue from 'bull/lib/queue';
-import imgThumbnail from 'image-thumbnail';
+import imgThumbnail from 'image-thumbnail'; // Needs Node v14 or above to work.
 import mongo from 'mongodb';
 import dbClient from './utils/db';
 import Mailer from './utils/mailer';
