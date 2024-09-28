@@ -11,10 +11,12 @@ class DBClient {
     this.client = new MongoClient(this.url, { useUnifiedTopology: true });
     this.client
       .connect()
-      .then(() => (this.connectionEstablished = true))
-      .catch((err) =>
-        console.log('Mongo client failed to connect:', err.toString())
-      );
+      .then(() => {
+        this.connectionEstablished = true;
+      })
+      .catch((err) => {
+        console.log('Mongo client failed to connect:', err.toString());
+      });
   }
 
   isAlive() {
