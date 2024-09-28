@@ -24,24 +24,24 @@ class DBClient {
   }
 
   async nbUsers() {
-    return await this.client.db().collection('users').countDocuments();
+    return this.client.db().collection('users').countDocuments();
   }
 
   async nbFiles() {
-    return await this.client.db().collection('files').countDocuments();
+    return this.client.db().collection('files').countDocuments();
   }
 
   async getUserByEmail(email) {
-    return await this.client.db().collection('users').findOne({ email });
+    return this.client.db().collection('users').findOne({ email });
   }
 
   async getUserById(id) {
     const _id = new ObjectId(id);
-    return await this.client.db().collection('users').findOne({ _id });
+    return this.client.db().collection('users').findOne({ _id });
   }
 
   async createUser(email, password) {
-    return await this.client
+    return this.client
       .db()
       .collection('users')
       .insertOne({ email, password: hashPassword(password) });
@@ -49,11 +49,11 @@ class DBClient {
 
   async getFileById(parentId) {
     const _id = new ObjectId(parentId);
-    return await this.client.db().collection('files').findOne({ _id });
+    return this.client.db().collection('files').findOne({ _id });
   }
 
   async getFileByUserId(fileId, userId) {
-    return await this.client
+    return this.client
       .db()
       .collection('files')
       .findOne({
@@ -63,7 +63,7 @@ class DBClient {
   }
 
   async getAllFilesPaginated(filter, page) {
-    return await this.client
+    return this.client
       .db()
       .collection('files')
       .aggregate([
@@ -93,11 +93,11 @@ class DBClient {
   }
 
   async createFile(file) {
-    return await this.client.db().collection('files').insertOne(file);
+    return this.client.db().collection('files').insertOne(file);
   }
 
   async updateFile(fileFilter, status) {
-    return await this.client
+    return this.client
       .db()
       .collection('files')
       .updateOne(fileFilter, { $set: { isPublic: status } });
