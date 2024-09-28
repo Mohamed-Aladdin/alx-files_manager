@@ -31,7 +31,7 @@ export default class FilesController {
     const parentId = req.body && req.body.parentId
       ? req.body.parentId : 0;
     const isPublic = req.body && req.body.isPublic ? req.body.isPublic : false;
-    const base64Data = req.body && req.body.data ? req.body.data : '';
+    const data = req.body && req.body.data ? req.body.data : '';
 
     if (!fetchedUser) {
       return res.status(401).json({ error: 'Unauthorized' });
