@@ -30,19 +30,19 @@ export default class FilesController {
     if (!fetchedUser) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
-    const name = req.body.name;
+    const { name } = req.body;
 
     if (!name) {
       return res.status(400).json({ error: 'Missing name' });
     }
-    const type = req.body.type;
+    const { type } = req.body;
 
     if (!type || !Object.values(FILE_TYPES).includes(type)) {
       return res.status(400).json({ error: 'Missing type' });
     }
     const parentId = req.body.parentId || 0;
     const isPublic = req.body.isPublic || false;
-    const data = req.body.data;
+    const { data } = req.body;
 
     if (!req.body.data && type !== FILE_TYPES.folder) {
       return res.status(400).json({ error: 'Missing data' });
@@ -99,7 +99,7 @@ export default class FilesController {
     if (!fetchedUser) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
-    const id = req.params.id;
+    const { id } = req.params;
     const userId = fetchedUser._id.toString();
     const file = await dbClient.getFileByUserId(id, userId);
 
@@ -144,7 +144,7 @@ export default class FilesController {
     if (!fetchedUser) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
-    const id = req.params.id;
+    const { id } = req.params;
     const userId = fetchedUser._id.toString();
     const file = await dbClient.getFileByUserId(id, userId);
 
@@ -173,7 +173,7 @@ export default class FilesController {
     if (!fetchedUser) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
-    const id = req.params.id;
+    const { id } = req.params;
     const userId = fetchedUser._id.toString();
     const file = await dbClient.getFileByUserId(id, userId);
 
@@ -199,7 +199,7 @@ export default class FilesController {
   static async getFile(req, res) {
     const fetchedUser = await getUserByToken(req);
     const userId = fetchedUser ? fetchedUser._id.toString() : '';
-    const id = req.params.id;
+    const { id } = req.params;
     const size = req.query.size || null;
     const file = await dbClient.getFileById(id);
 
