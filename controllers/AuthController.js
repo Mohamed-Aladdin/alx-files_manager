@@ -17,7 +17,13 @@ export default class AuthController {
       return res.status(401).json({ error: 'Unauthorized' });
     }
     const token = getToken(authHeader);
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
     const decoded = decodeToken(token);
+    if (!decoded) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
     const { email, password } = getCreds(decoded);
     const fetchedUser = await dbClient.getUserByEmail(email);
 
@@ -28,17 +34,12 @@ export default class AuthController {
     await redisClient.set(
       `auth_${key}`,
       fetchedUser._id.toString(),
-      60 * 60 * 24
+      60 * 60 * 24,
     );
     return res.status(200).json({ token: key });
   }
 
   static async getDisconnect(req, res) {
-    const token = req.headers['x-token'];
-
-    if (!token) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
     const fetchedUser = await getUserByToken(req);
 
     if (!fetchedUser) {
