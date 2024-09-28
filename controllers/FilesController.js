@@ -26,30 +26,29 @@ const FILE_TYPES = {
 export default class FilesController {
   static async postUpload(req, res) {
     const fetchedUser = await getUserByToken(req);
-    const name = req.body ? req.body.name : null;
-    const type = req.body ? req.body.type : null;
-    const parentId = req.body && req.body.parentId
-      ? req.body.parentId : 0;
-    const isPublic = req.body && req.body.isPublic ? req.body.isPublic : false;
-    const data = req.body && req.body.data ? req.body.data : '';
 
     if (!fetchedUser) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
+    const { name } = req.body;
 
     if (!name) {
       return res.status(400).json({ error: 'Missing name' });
     }
+    const { type } = req.body;
 
     if (!type || !Object.values(FILE_TYPES).includes(type)) {
       return res.status(400).json({ error: 'Missing type' });
     }
+    const parentId = req.body.parentId || 0;
+    const isPublic = req.body.isPublic || false;
+    const { data } = req.body;
 
     if (!req.body.data && type !== FILE_TYPES.folder) {
       return res.status(400).json({ error: 'Missing data' });
     }
 
-    if (parentId !== 0) {
+    if (parentId !== 0 && parentId !== '0') {
       const file = await dbClient.getFileById(parentId);
 
       if (!file) {
