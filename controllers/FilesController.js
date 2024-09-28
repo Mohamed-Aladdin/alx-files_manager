@@ -3,7 +3,7 @@ import dbClient from '../utils/db';
 import mongo from 'mongodb';
 import { tmpdir } from 'os';
 import { promisify } from 'util';
-// import Queue from 'bull/lib/queue';
+import Queue from 'bull/lib/queue';
 import { v4 } from 'uuid';
 import { mkdir, writeFile, stat, existsSync, realpath } from 'fs';
 import { join as joinPath } from 'path';
@@ -189,5 +189,40 @@ export default class FilesController {
       isPublic: false,
       parentId: file.parentId.toString(),
     });
+  }
+
+  static async getFile(req, res) {
+    const id = req.params.id;
+    const size = req.query.size || null;
+    const fetchedUser = await getUserByToken(req);
+    const userId = fetchedUser._id.toString();
+    const file = await dbClient.getFileById(id);
+
+    if (!file || (!file.isPublic && file.userId.toString() !== userId)) {
+      return res.status(404).json({ error: 'Not found' });
+    }
+    if (file.type === FILE_TYPES.folder) {
+      return res.status(400).json({ error: "A folder doesn't have content" });
+    }
+    let filePath = file.localPath;
+
+    if (size) {
+      filePath = `${file.localPath}_${size}`;
+    }
+    if (existsSync(filePath)) {
+      const fileInfo = await statAsync(filePath);
+      if (!fileInfo.isFile()) {
+        return res.status(404).json({ error: 'Not found' });
+      }
+    } else {
+      return res.status(404).json({ error: 'Not found' });
+    }
+    const absoluteFilePath = await realpathAsync(filePath);
+    res.setHeader(
+      'Content-Type',
+      contentType(file.name) || 'text/plain; charset=utf-8'
+    );
+
+    return res.status(200).sendFile(absoluteFilePath);
   }
 }
