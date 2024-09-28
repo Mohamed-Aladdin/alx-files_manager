@@ -10,6 +10,7 @@ import { join as joinPath } from 'path';
 import { contentType } from 'mime-types';
 import { error } from 'console';
 
+const fileQueue = new Queue('thumbnail generation');
 const mkDirAsync = promisify(mkdir);
 const writeFileAsync = promisify(writeFile);
 const statAsync = promisify(stat);
@@ -77,6 +78,10 @@ export default class FilesController {
     const insertedFile = await dbClient.createFile(newFile);
     const fileId = insertedFile.insertedId.toString();
 
+    if (type === FILE_TYPES.image) {
+      const jobName = `Image thumbnail [${userId}-${fileId}]`;
+      fileQueue.add({ userId, fileId, name: jobName });
+    }
     return res.status(201).json({
       id: fileId,
       userId,
