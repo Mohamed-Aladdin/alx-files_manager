@@ -211,6 +211,7 @@ export default class FilesController {
     }
     if (existsSync(filePath)) {
       const fileInfo = await statAsync(filePath);
+
       if (!fileInfo.isFile()) {
         return res.status(404).json({ error: 'Not found' });
       }
