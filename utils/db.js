@@ -1,4 +1,5 @@
-import mongo, { MongoClient } from 'mongodb';
+import { MongoClient } from 'mongodb';
+import mongo from 'mongodb';
 import { hashPassword } from './auth';
 
 class DBClient {
