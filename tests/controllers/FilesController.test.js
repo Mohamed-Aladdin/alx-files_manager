@@ -52,6 +52,8 @@ describe('Files Controller', () => {
     },
   ];
   let token = '';
+  let fileId = '';
+  let parentId = '';
 
   const emptyFolder = (name) => {
     if (!existsSync(name)) {
@@ -150,6 +152,67 @@ describe('Files Controller', () => {
         expect(body.type).to.equal(mockFiles[0].type);
         expect(body.isPublic).to.be.false;
         expect(body.parentId).to.equal('0');
+        fileId = body.id;
+        parentId = body.parentId;
+        done();
+      }
+    );
+  });
+
+  it('GET /files/:id', (done) => {
+    request.get(
+      `${URL}/files/${fileId}`,
+      {
+        json: mockFiles[0],
+        headers: { 'x-token': token },
+      },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(200);
+        expect(body.id).to.equal(fileId);
+        expect(body.userId).to.exist;
+        expect(body.name).to.equal(mockFiles[0].name);
+        expect(body.type).to.equal(mockFiles[0].type);
+        expect(body.isPublic).to.be.false;
+        expect(body.parentId).to.equal('0');
+        done();
+      }
+    );
+  });
+
+  it('GET /files', (done) => {
+    request.get(
+      `${URL}/files`,
+      {
+        headers: { 'x-token': token },
+      },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(200);
+        expect(body.length).to.be.greaterThan(0);
+      }
+    );
+  });
+
+  it('GET /files?parentId', (done) => {
+    request.get(
+      `${URL}/files`,
+      {
+        headers: { 'x-token': token },
+        qs: {
+          parentId,
+        },
+      },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(200);
+        expect(body.length).to.be.greaterThan(0);
+        expect(body[0].id).to.equal(fileId);
+        expect(body[0].userId).to.exist;
+        expect(body[0].name).to.equal(mockFiles[0].name);
+        expect(body[0].type).to.equal(mockFiles[0].type);
+        expect(body[0].isPublic).to.be.false;
+        expect(body[0].parentId).to.equal('0');
         done();
       }
     );
