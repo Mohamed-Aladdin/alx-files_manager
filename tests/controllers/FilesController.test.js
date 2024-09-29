@@ -144,13 +144,13 @@ describe('Files Controller', () => {
       (err, res, body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(201);
-        expect(JSON.parse(body).id).to.exist;
-        expect(JSON.parse(body).userId).to.exist;
-        expect(JSON.parse(body).name).to.equal(mockFiles[0].name);
-        expect(JSON.parse(body).type).to.equal(mockFiles[0].type);
-        expect(JSON.parse(body).id.isPublic).to.be.false;
-        expect(JSON.parse(body).parentId).to.equal(0);
-        done()
+        expect(body.id).to.exist;
+        expect(body.userId).to.exist;
+        expect(body.name).to.equal(mockFiles[0].name);
+        expect(body.type).to.equal(mockFiles[0].type);
+        expect(body.isPublic).to.be.false;
+        expect(body.parentId).to.equal(0);
+        done();
       }
     );
   });
