@@ -190,6 +190,7 @@ describe('Files Controller', () => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
         expect(body.length).to.be.greaterThan(0);
+        done();
       }
     );
   });
