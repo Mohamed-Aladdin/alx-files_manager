@@ -12,7 +12,7 @@ describe('Users Controller', () => {
   before(function (done) {
     this.timeout(10000);
     Promise.all([dbClient.client.db().collection('users')])
-      .then((usersCollection) => {
+      .then(([usersCollection]) => {
         usersCollection
           .deleteMany({ email: mockUser.email })
           .then(() => done())
