@@ -67,7 +67,8 @@ export default class FilesController {
       name,
       type,
       isPublic,
-      parentId: parentId === 0 ? '0' : new mongo.ObjectID(parentId),
+      parentId: parentId === 0 || parentId === '0'
+        ? '0' : new mongo.ObjectID(parentId),
     };
     await mkDirAsync(baseDir, { recursive: true });
 
@@ -89,7 +90,8 @@ export default class FilesController {
       name,
       type,
       isPublic,
-      parentId: parentId === 0 ? '0' : new mongo.ObjectID(parentId),
+      parentId: parentId === 0 || parentId === '0'
+        ? '0' : new mongo.ObjectID(parentId),
     });
   }
 
