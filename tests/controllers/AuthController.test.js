@@ -17,21 +17,17 @@ describe('Auth Controller', () => {
         usersCollection
           .deleteMany({ email: mockUser.email })
           .then(() => {
-            request
-              .post(`${URL}/users`)
-              .send({
-                email: mockUser.email,
-                password: mockUser.password,
-              })
-              .expect(201)
-              .end((requestErr, res) => {
-                if (requestErr) {
-                  return done(requestErr);
-                }
-                expect(res.body.email).to.eql(mockUser.email);
-                expect(res.body.id.length).to.be.greaterThan(0);
+            request.post(
+              `${URL}/users`,
+              { json: { email: mockUser.email, password: mockUser.password } },
+              (err, res, body) => {
+                expect(err).to.be.null;
+                expect(res.statusCode).to.equal(201);
+                expect(body.email).to.equal(mockUser.email);
+                expect(body.id.length).to.be.greaterThan(0);
                 done();
-              });
+              }
+            );
           })
           .catch((deleteErr) => done(deleteErr));
       })
