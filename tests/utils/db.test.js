@@ -5,8 +5,8 @@ describe('DBClient Class', () => {
   before(function (done) {
     this.timeout(10000);
     Promise.all([
-      dbClient.db().collection('users'),
-      dbClient.db().collection('files'),
+      dbClient.client.db().collection('users'),
+      dbClient.client.db().collection('files'),
     ])
       .then(([usersCollection, filesCollection]) => {
         Promise.all([
