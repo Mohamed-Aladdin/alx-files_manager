@@ -233,7 +233,7 @@ describe('Files Controller', () => {
         expect(JSON.parse(body).name).to.equal(mockFiles[0].name);
         expect(JSON.parse(body).type).to.equal(mockFiles[0].type);
         expect(JSON.parse(body).isPublic).to.be.true;
-        expect(JSON.parse(body).parentId).to.equal(0);
+        expect(JSON.parse(body).parentId).to.equal('0');
         done();
       }
     );
@@ -253,7 +253,7 @@ describe('Files Controller', () => {
         expect(JSON.parse(body).name).to.equal(mockFiles[0].name);
         expect(JSON.parse(body).type).to.equal(mockFiles[0].type);
         expect(JSON.parse(body).isPublic).to.be.false;
-        expect(JSON.parse(body).parentId).to.equal(0);
+        expect(JSON.parse(body).parentId).to.equal('0');
         done();
       }
     );
