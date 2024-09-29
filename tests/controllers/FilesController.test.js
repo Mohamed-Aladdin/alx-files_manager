@@ -149,7 +149,7 @@ describe('Files Controller', () => {
         expect(body.name).to.equal(mockFiles[0].name);
         expect(body.type).to.equal(mockFiles[0].type);
         expect(body.isPublic).to.be.false;
-        expect(body.parentId).to.equal(0);
+        expect(body.parentId).to.equal('0');
         done();
       }
     );
