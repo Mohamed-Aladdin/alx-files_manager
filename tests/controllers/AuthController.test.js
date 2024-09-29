@@ -12,10 +12,8 @@ describe('Auth Controller', () => {
 
   before(function (done) {
     this.timeout(10000);
-    dbClient.client
-      .db()
-      .collection('users')
-      .then((usersCollection) => {
+    Promise.all([dbClient.client.db().collection('users')])
+      .then(([usersCollection]) => {
         usersCollection
           .deleteMany({ email: mockUser.email })
           .then(() => {
