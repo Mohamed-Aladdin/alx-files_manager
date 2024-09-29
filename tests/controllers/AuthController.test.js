@@ -46,8 +46,8 @@ describe('Auth Controller', () => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
         expect(JSON.parse(body).token).to.exist;
-        expect(body.token).to.be.greaterThan(0);
-        token = body.token;
+        expect(JSON.parse(body).token).to.be.greaterThan(0);
+        token = JSON.parse(body).token;
         done();
       }
     );
@@ -61,7 +61,7 @@ describe('Auth Controller', () => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
         expect(body.email).to.equal(mockUser.email);
-        expect(SON.parse(body).id.length).to.be.greaterThan(0);
+        expect(JSON.parse(body).id.length).to.be.greaterThan(0);
         done();
       }
     );
