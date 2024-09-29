@@ -26,7 +26,7 @@ describe('App Controller', () => {
     request.get(`${URL}/status`, (err, res, body) => {
       expect(err).to.be.null;
       expect(res.statusCode).to.equal(200);
-      expect(body).to.deep.eql({ redis: true, db: true });
+      expect(JSON.parse(body)).to.deep.equal({ redis: true, db: true });
       done();
     });
   });
@@ -35,7 +35,7 @@ describe('App Controller', () => {
     request.get(`${URL}/stats`, (err, res, body) => {
       expect(err).to.be.null;
       expect(res.statusCode).to.equal(200);
-      expect(body).to.deep.eql({ users: 0, files: 0 });
+      expect(JSON.parse(body)).to.deep.equal({ users: 0, files: 0 });
       done();
     });
   });
