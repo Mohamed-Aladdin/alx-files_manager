@@ -240,12 +240,16 @@ describe('Files Controller', () => {
   });
 
   it('GET /files/:id/data when file is public', (done) => {
-    request.get(`${URL}/files/${fileId}/data`, (err, res, body) => {
-      expect(err).to.be.null;
-      expect(res.statusCode).to.equal(200);
-      expect(body).to.deep.equal(mockFiles[0].data);
-      done();
-    });
+    request.get(
+      `${URL}/files/${fileId}/data`,
+      { encoding: 'utf8' },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(200);
+        expect(body).to.deep.equal(mockFiles[0].data);
+        done();
+      }
+    );
   });
 
   it('PUT /files/:id/unpublish', (done) => {
@@ -282,6 +286,7 @@ describe('Files Controller', () => {
       `${URL}/files/${fileId}/data`,
       {
         headers: { 'x-token': token },
+        encoding: 'utf8',
       },
       (err, res, body) => {
         expect(err).to.be.null;
