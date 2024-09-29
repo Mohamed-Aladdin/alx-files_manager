@@ -122,7 +122,7 @@ describe('Files Controller', () => {
 
   before(function (done) {
     this.timeout(10000);
-    emptyDatabase(() => signUp(mockUser, () => logIn(mockUser, done)));
+    emptyDatabase(() => signUp(mockUser, () => logIn(done)));
     emptyFolder(baseDir);
   });
 
@@ -150,6 +150,7 @@ describe('Files Controller', () => {
         expect(JSON.parse(body).type).to.equal(mockFiles[0].type);
         expect(JSON.parse(body).id.isPublic).to.be.false;
         expect(JSON.parse(body).parentId).to.equal(0);
+        done()
       }
     );
   });
