@@ -35,30 +35,46 @@ describe('Auth Controller', () => {
   });
 
   it('GET /connect', (done) => {
-    request.get(`${URL}/connect`, (err, res, body) => {
-      expect(err).to.be.null;
-      expect(res.statusCode).to.equal(200);
-      expect(body.token).to.exist;
-      expect(body.token).to.be.greaterThan(0);
-      token = body.token;
-      done();
-    });
+    request.get(
+      `${URL}/connect`,
+      {
+        headers: {
+          Authorization: 'Basic aGVsbG9Ad29ybGQuY29tOkh1aFllYWgxMDE=',
+        },
+      },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(200);
+        expect(body.token).to.exist;
+        expect(body.token).to.be.greaterThan(0);
+        token = body.token;
+        done();
+      }
+    );
   });
 
   it('GET /users/me', (done) => {
-    request.get(`${URL}/users/me`, (err, res, body) => {
-      expect(err).to.be.null;
-      expect(res.statusCode).to.equal(200);
-      expect(body.email).to.equal(mockUser.email);
-      expect(body.id.length).to.be.greaterThan(0);
-      done();
-    });
+    request.get(
+      `${URL}/users/me`,
+      { headers: { 'x-token': token } },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(200);
+        expect(body.email).to.equal(mockUser.email);
+        expect(body.id.length).to.be.greaterThan(0);
+        done();
+      }
+    );
   });
 
   it('GET /disconnect', (done) => {
-    request.get(`${URL}/disconnect`, (err, res, body) => {
-      expect(err).to.be.null;
-      expect(res.statusCode).to.equal(204);
-    });
+    request.get(
+      `${URL}/disconnect`,
+      { headers: { 'x-token': token } },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(204);
+      }
+    );
   });
 });
