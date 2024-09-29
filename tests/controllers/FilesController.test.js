@@ -228,12 +228,12 @@ describe('Files Controller', () => {
       (err, res, body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
-        expect(body.id).to.equal(fileId);
-        expect(body.userId).to.exist;
-        expect(body.name).to.equal(mockFiles[0].name);
-        expect(body.type).to.equal(mockFiles[0].type);
-        expect(body.isPublic).to.be.true;
-        expect(body.parentId).to.equal('0');
+        expect(JSON.parse(body)[0].id).to.equal(fileId);
+        expect(JSON.parse(body)[0].userId).to.exist;
+        expect(JSON.parse(body)[0].name).to.equal(mockFiles[0].name);
+        expect(JSON.parse(body)[0].type).to.equal(mockFiles[0].type);
+        expect(JSON.parse(body)[0].isPublic).to.be.true;
+        expect(JSON.parse(body)[0].parentId).to.equal(0);
         done();
       }
     );
@@ -248,12 +248,12 @@ describe('Files Controller', () => {
       (err, res, body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
-        expect(body.id).to.equal(fileId);
-        expect(body.userId).to.exist;
-        expect(body.name).to.equal(mockFiles[0].name);
-        expect(body.type).to.equal(mockFiles[0].type);
-        expect(body.isPublic).to.be.false;
-        expect(body.parentId).to.equal('0');
+        expect(JSON.parse(body)[0].id).to.equal(fileId);
+        expect(JSON.parse(body)[0].userId).to.exist;
+        expect(JSON.parse(body)[0].name).to.equal(mockFiles[0].name);
+        expect(JSON.parse(body)[0].type).to.equal(mockFiles[0].type);
+        expect(JSON.parse(body)[0].isPublic).to.be.false;
+        expect(JSON.parse(body)[0].parentId).to.equal(0);
         done();
       }
     );
