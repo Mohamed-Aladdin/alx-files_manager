@@ -8,10 +8,10 @@ describe('DBClient Class', () => {
       dbClient.db().collection('users'),
       dbClient.db().collection('files'),
     ])
-      .then(([usersCollection, filesCollection]) => {
+      .then(async ([usersCollection, filesCollection]) => {
         Promise.all([
-          usersCollection.deleteMany({}),
-          filesCollection.deleteMany({}),
+          await usersCollection.deleteMany({}),
+          await filesCollection.deleteMany({}),
         ])
           .then(() => done())
           .catch((deleteErr) => done(deleteErr));

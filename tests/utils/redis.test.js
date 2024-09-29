@@ -19,14 +19,14 @@ describe('RedisClient Class', () => {
   it('RedisClient getting an expired value', () => {
     setTimeout(async () => {
       expect(await redisClient.get('test_key')).to.not.equal('test_value');
-      expect(redisClient.get('test_key')).to.be.null;
+      expect(await redisClient.get('test_key')).to.be.null;
     }, 10000);
   });
 
   it('RedisClient deleting a value', async () => {
     await redisClient.set('test_key', 'test_value', 60);
     await redisClient.del('test_key');
-    expect(redisClient.get('test_key')).to.not.equal('test_value');
-    expect(redisClient.get('test_key')).to.be.null;
+    expect(await redisClient.get('test_key')).to.not.equal('test_value');
+    expect(await redisClient.get('test_key')).to.be.null;
   });
 });
