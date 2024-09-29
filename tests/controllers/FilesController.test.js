@@ -243,7 +243,7 @@ describe('Files Controller', () => {
     request.get(`${URL}/files/${fileId}/data`, (err, res, body) => {
       expect(err).to.be.null;
       expect(res.statusCode).to.equal(200);
-      expect(JSON.parse(body)).to.deep.equal(mockFiles[0].data);
+      expect(body).to.deep.equal(mockFiles[0].data);
       done();
     });
   });
@@ -286,7 +286,7 @@ describe('Files Controller', () => {
       (err, res, body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
-        expect(JSON.parse(body)).to.deep.equal(mockFiles[0].data);
+        expect(body).to.deep.equal(mockFiles[0].data);
         done();
       }
     );
