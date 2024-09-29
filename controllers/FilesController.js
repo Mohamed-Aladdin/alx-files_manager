@@ -130,8 +130,8 @@ export default class FilesController {
       : 0;
 
     const fileFilter = {
-        userId: fetchedUser._id,
-        parentId: new mongo.ObjectID(parentId),
+      userId: fetchedUser._id,
+      parentId: new mongo.ObjectID(parentId),
     };
     const files = await dbClient.getAllFilesPaginated(fileFilter, page);
 
