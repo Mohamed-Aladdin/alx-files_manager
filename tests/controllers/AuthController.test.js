@@ -46,7 +46,7 @@ describe('Auth Controller', () => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
         expect(JSON.parse(body).token).to.exist;
-        expect(JSON.parse(body).token).to.be.greaterThan(0);
+        expect(JSON.parse(body).token.length).to.be.greaterThan(0);
         token = JSON.parse(body).token;
         done();
       }
