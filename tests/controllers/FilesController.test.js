@@ -243,10 +243,11 @@ describe('Files Controller', () => {
     request.get(
       `${URL}/files/${fileId}/data`,
       { encoding: 'utf8' },
-      (err, res, body) => {
+      (err, res, _body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
-        expect(body).to.deep.equal(mockFiles[0].data);
+        expect(res.headers['content-type']).to.contain('text/plain');
+        expect(res.text).to.deep.equal(mockFiles[0].data);
         done();
       }
     );
@@ -288,10 +289,11 @@ describe('Files Controller', () => {
         headers: { 'x-token': token },
         encoding: 'utf8',
       },
-      (err, res, body) => {
+      (err, res, _body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
-        expect(body).to.deep.equal(mockFiles[0].data);
+        expect(res.headers['content-type']).to.contain('text/plain');
+        expect(res.text).to.deep.equal(mockFiles[0].data);
         done();
       }
     );
