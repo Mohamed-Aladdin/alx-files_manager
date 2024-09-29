@@ -208,12 +208,12 @@ describe('Files Controller', () => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
         expect(body.length).to.be.greaterThan(0);
-        expect(JSON.parse(body[0]).id).to.equal(fileId);
-        expect(JSON.parse(body[0]).userId).to.exist;
-        expect(JSON.parse(body[0]).name).to.equal(mockFiles[0].name);
-        expect(JSON.parse(body[0]).type).to.equal(mockFiles[0].type);
-        expect(JSON.parse(body[0]).isPublic).to.be.false;
-        expect(JSON.parse(body[0]).parentId).to.equal('0');
+        expect(JSON.parse(body)[0].id).to.equal(fileId);
+        expect(JSON.parse(body)[0].userId).to.exist;
+        expect(JSON.parse(body)[0].name).to.equal(mockFiles[0].name);
+        expect(JSON.parse(body)[0].type).to.equal(mockFiles[0].type);
+        expect(JSON.parse(body)[0].isPublic).to.be.false;
+        expect(JSON.parse(body)[0].parentId).to.equal('0');
         done();
       }
     );
