@@ -243,9 +243,7 @@ describe('Files Controller', () => {
     request.get(`${URL}/files/${fileId}/data`, (err, res, body) => {
       expect(err).to.be.null;
       expect(res.statusCode).to.equal(200);
-      expect(body).to.deep.equal(
-        ["+ Darwin's Game", '+ One Piece', '+ My Hero Academia', ''].join('\n')
-      );
+      expect(body).to.deep.equal(mockFiles[0].data);
       done();
     });
   });
@@ -274,7 +272,7 @@ describe('Files Controller', () => {
     request.get(`${URL}/files/${fileId}/data`, (err, res, body) => {
       expect(err).to.be.null;
       expect(res.statusCode).to.equal(404);
-      expect(body).to.deep.equal({ error: 'Not found' });
+      expect(JSON.parse(body)).to.deep.equal({ error: 'Not found' });
       done();
     });
   });
@@ -288,11 +286,7 @@ describe('Files Controller', () => {
       (err, res, body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
-        expect(body).to.deep.equal(
-          ["+ Darwin's Game", '+ One Piece', '+ My Hero Academia', ''].join(
-            '\n'
-          )
-        );
+        expect(body).to.deep.equal(mockFiles[0].data);
         done();
       }
     );
