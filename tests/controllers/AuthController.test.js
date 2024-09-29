@@ -18,7 +18,7 @@ describe('Auth Controller', () => {
           .deleteMany({ email: mockUser.email })
           .then(() => {
             request
-              .post('/users')
+              .post(`${URL}/users`)
               .send({
                 email: mockUser.email,
                 password: mockUser.password,
