@@ -102,14 +102,22 @@ describe('Files Controller', () => {
   };
 
   const logIn = (done) => {
-    request.get(`${URL}/connect`, (err, res, body) => {
-      expect(err).to.be.null;
-      expect(res.statusCode).to.equal(200);
-      expect(body.token).to.exist;
-      expect(body.token).to.be.greaterThan(0);
-      token = body.token;
-      done();
-    });
+    request.get(
+      `${URL}/connect`,
+      {
+        headers: {
+          Authorization: 'Basic aGVsbG9Ad29ybGQuY29tOkh1aFllYWgxMDE=',
+        },
+      },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(200);
+        expect(JSON.parse(body).token).to.exist;
+        expect(JSON.parse(body).token.length).to.be.greaterThan(0);
+        token = JSON.parse(body).token;
+        done();
+      }
+    );
   };
 
   before(function (done) {
@@ -136,12 +144,12 @@ describe('Files Controller', () => {
       (err, res, body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(201);
-        expect(body.id).to.exist;
-        expect(body.userId).to.exist;
-        expect(body.name).to.equal(mockFiles[0].name);
-        expect(body.type).to.equal(mockFiles[0].type);
-        expect(body.id.isPublic).to.be.false;
-        expect(body.parentId).to.equal(0);
+        expect(JSON.parse(body).id).to.exist;
+        expect(JSON.parse(body).userId).to.exist;
+        expect(JSON.parse(body).name).to.equal(mockFiles[0].name);
+        expect(JSON.parse(body).type).to.equal(mockFiles[0].type);
+        expect(JSON.parse(body).id.isPublic).to.be.false;
+        expect(JSON.parse(body).parentId).to.equal(0);
       }
     );
   });
