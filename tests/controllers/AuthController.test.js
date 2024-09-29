@@ -60,7 +60,7 @@ describe('Auth Controller', () => {
       (err, res, body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
-        expect(body.email).to.equal(mockUser.email);
+        expect(JSON.parse(body).email).to.equal(mockUser.email);
         expect(JSON.parse(body).id.length).to.be.greaterThan(0);
         done();
       }
@@ -74,6 +74,7 @@ describe('Auth Controller', () => {
       (err, res, body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(204);
+        done();
       }
     );
   });
