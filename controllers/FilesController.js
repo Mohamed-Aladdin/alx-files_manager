@@ -10,7 +10,7 @@ import {
 import { join as joinPath } from 'path';
 import { contentType } from 'mime-types';
 import dbClient from '../utils/db';
-import { getUserByToken } from '../utils/auth';
+import { getUserByToken, validateId } from '../utils/auth';
 
 const fileQueue = new Queue('thumbnail generation');
 const mkDirAsync = promisify(mkdir);
@@ -133,7 +133,7 @@ export default class FilesController {
       ? { userId: fetchedUser._id }
       : {
         userId: fetchedUser._id,
-        parentId: new mongo.ObjectID(parentId),
+        parentId: validateId(parentId) ? new mongo.ObjectID(parentId) : null,
       };
     const files = await dbClient.getAllFilesPaginated(fileFilter, page);
 

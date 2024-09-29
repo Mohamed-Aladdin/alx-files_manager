@@ -1,5 +1,5 @@
 const { MongoClient, ObjectId } = require('mongodb');
-const { hashPassword } = require('./auth');
+const { hashPassword, validateId } = require('./auth');
 
 class DBClient {
   constructor() {
@@ -48,16 +48,18 @@ class DBClient {
   }
 
   async getFileById(parentId) {
-    const _id = new ObjectId(parentId);
+    const _id = validateId(parentId) ? new ObjectId(parentId) : null;
     return this.client.db().collection('files').findOne({ _id });
   }
 
   async getFileByUserId(fileId, userId) {
+    const _id = validateId(fileId) ? new ObjectId(fileId) : null;
+
     return this.client
       .db()
       .collection('files')
       .findOne({
-        _id: new ObjectId(fileId),
+        _id,
         userId: new ObjectId(userId),
       });
   }
