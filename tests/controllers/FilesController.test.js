@@ -14,7 +14,7 @@ describe('Files Controller', () => {
   const baseDir =
     `${process.env.FOLDER_PATH || ''}`.trim().length > 0
       ? process.env.FOLDER_PATH.trim()
-      : joinPath(tmpdir(), DEFAULT_ROOT_FOLDER);
+      : joinPath(tmpdir(), 'files_manager');
   const mockFiles = [
     {
       name: 'manga_titles.txt',
