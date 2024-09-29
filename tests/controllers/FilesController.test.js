@@ -243,7 +243,7 @@ describe('Files Controller', () => {
     request.get(
       `${URL}/files/${fileId}/data`,
       { encoding: 'utf8' },
-      (err, res, _body) => {
+      (err, res, body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
         expect(res.headers['content-type']).to.contain('text/plain');
