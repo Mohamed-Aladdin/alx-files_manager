@@ -239,6 +239,17 @@ describe('Files Controller', () => {
     );
   });
 
+  it('GET /files/:id/data when file is public', (done) => {
+    request.get(`${URL}/files/${fileId}/data`, (err, res, body) => {
+      expect(err).to.be.null;
+      expect(res.statusCode).to.equal(200);
+      expect(body).to.deep.equal(
+        ["+ Darwin's Game", '+ One Piece', '+ My Hero Academia', ''].join('\n')
+      );
+      done();
+    });
+  });
+
   it('PUT /files/:id/unpublish', (done) => {
     request.put(
       `${URL}/files/${fileId}/unpublish`,
@@ -254,6 +265,34 @@ describe('Files Controller', () => {
         expect(JSON.parse(body).type).to.equal(mockFiles[0].type);
         expect(JSON.parse(body).isPublic).to.be.false;
         expect(JSON.parse(body).parentId).to.equal('0');
+        done();
+      }
+    );
+  });
+
+  it('GET /files/:id/data when file is not public', (done) => {
+    request.get(`${URL}/files/${fileId}/data`, (err, res, body) => {
+      expect(err).to.be.null;
+      expect(res.statusCode).to.equal(404);
+      expect(body).to.deep.equal({ error: 'Not found' });
+      done();
+    });
+  });
+
+  it('GET /files/:id/data with user authentication', (done) => {
+    request.get(
+      `${URL}/files/${fileId}/data`,
+      {
+        headers: { 'x-token': token },
+      },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(200);
+        expect(body).to.deep.equal(
+          ["+ Darwin's Game", '+ One Piece', '+ My Hero Academia', ''].join(
+            '\n'
+          )
+        );
         done();
       }
     );
