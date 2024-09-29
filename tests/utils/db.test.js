@@ -2,16 +2,16 @@ import { expect } from 'chai';
 import dbClient from '../../utils/db';
 
 describe('DBClient Class', () => {
-  before((done) => {
+  before(function (done) {
     this.timeout(10000);
     Promise.all([
       dbClient.db().collection('users'),
       dbClient.db().collection('files'),
     ])
-      .then(async ([usersCollection, filesCollection]) => {
+      .then(([usersCollection, filesCollection]) => {
         Promise.all([
-          await usersCollection.deleteMany({}),
-          await filesCollection.deleteMany({}),
+          usersCollection.deleteMany({}),
+          filesCollection.deleteMany({}),
         ])
           .then(() => done())
           .catch((deleteErr) => done(deleteErr));
