@@ -23,11 +23,11 @@ describe('DBClient Class', () => {
     expect(dbClient.isAlive()).to.be.true;
   });
 
-  it('nbUsers returns the correct user count', () => {
-    expect(dbClient.nbUsers()).to.equal(0);
+  it('nbUsers returns the correct user count', async () => {
+    expect(await dbClient.nbUsers()).to.equal(0);
   });
 
-  it('nbFiles returns the correct file count', () => {
-    expect(dbClient.nbFiles()).to.equal(0);
+  it('nbFiles returns the correct file count', async () => {
+    expect(await dbClient.nbFiles()).to.equal(0);
   });
 });
