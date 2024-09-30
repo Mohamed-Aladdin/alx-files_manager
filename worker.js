@@ -37,3 +37,17 @@ fileQueue.process(async (job, done) => {
     size_list.map((size) => generateThumbnail(file.localPath, size))
   ).then(() => done());
 });
+
+userQueue.process(async (job, done) => {
+  const userId = job.data.userId || null;
+
+  if (!userId) {
+    throw new Error('Missing userId');
+  }
+  const fetchedUser = await dbClient.getUserById(userId);
+
+  if (!fetchedUser) {
+    throw new Error('User not found');
+  }
+  console.log(`Welcome ${user.email}!`);
+});

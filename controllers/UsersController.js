@@ -1,5 +1,8 @@
+import Queue from 'bull/lib/queue';
 import { getUserByToken } from '../utils/auth';
 import dbClient from '../utils/db';
+
+const userQueue = new Queue('email sending');
 
 export default class UsersController {
   static async postNew(req, res) {
@@ -17,6 +20,8 @@ export default class UsersController {
       return res.status(400).json({ error: 'Already exist' });
     }
     const { insertedId } = await dbClient.createUser(email, password);
+
+    userQueue.add({ insertedId });
 
     return res.status(201).json({
       id: insertedId,
