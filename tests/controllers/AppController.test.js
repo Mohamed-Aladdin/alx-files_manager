@@ -55,7 +55,7 @@ describe('App Controller', () => {
           ]),
         ])
           .then(() => {
-            request.get('/stats', (err, res, body) => {
+            request.get(`${URL}/stats`, (err, res, body) => {
               expect(err).to.be.null;
               expect(res.statusCode).to.equal(200);
               expect(JSON.parse(body)).to.deep.eql({ users: 1, files: 2 });
