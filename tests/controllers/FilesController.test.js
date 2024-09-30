@@ -146,7 +146,7 @@ describe('Files Controller', () => {
       (err, res, body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(401);
-        expect(JSON.parse(body)).to.deep.equal({ error: 'Unauthorized' });
+        expect(body).to.deep.equal({ error: 'Unauthorized' });
         done();
       }
     );
@@ -185,7 +185,7 @@ describe('Files Controller', () => {
       (err, res, body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(401);
-        expect(JSON.parse(body)).to.deep.equal({ error: 'Unauthorized' });
+        expect(body).to.deep.equal({ error: 'Unauthorized' });
         done();
       }
     );
