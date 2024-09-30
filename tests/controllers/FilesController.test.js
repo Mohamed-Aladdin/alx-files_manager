@@ -136,6 +136,22 @@ describe('Files Controller', () => {
     });
   });
 
+  it('POST /files with an invalid token', (done) => {
+    request.post(
+      `${URL}/files`,
+      {
+        json: mockFiles[0],
+        headers: { 'x-token': token + '5' },
+      },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(401);
+        expect(JSON.parse(body)).to.deep.equal({ error: 'Unauthorized' });
+        done();
+      }
+    );
+  });
+
   it('POST /files', (done) => {
     request.post(
       `${URL}/files`,
@@ -154,6 +170,22 @@ describe('Files Controller', () => {
         expect(body.parentId).to.equal('0');
         fileId = body.id;
         parentId = body.parentId;
+        done();
+      }
+    );
+  });
+
+  it('GET /files/:id with an invalid token', (done) => {
+    request.get(
+      `${URL}/files/${fileId}`,
+      {
+        json: mockFiles[0],
+        headers: { 'x-token': token + '5' },
+      },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(401);
+        expect(JSON.parse(body)).to.deep.equal({ error: 'Unauthorized' });
         done();
       }
     );
@@ -180,6 +212,21 @@ describe('Files Controller', () => {
     );
   });
 
+  it('GET /files with an invalid token', (done) => {
+    request.get(
+      `${URL}/files`,
+      {
+        headers: { 'x-token': token + '5' },
+      },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(401);
+        expect(JSON.parse(body)).to.deep.equal({ error: 'Unauthorized' });
+        done();
+      }
+    );
+  });
+
   it('GET /files', (done) => {
     request.get(
       `${URL}/files`,
@@ -190,6 +237,24 @@ describe('Files Controller', () => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(200);
         expect(body.length).to.be.greaterThan(0);
+        done();
+      }
+    );
+  });
+
+  it('GET /files?parentId with an invalid token', (done) => {
+    request.get(
+      `${URL}/files`,
+      {
+        headers: { 'x-token': token + '5' },
+        qs: {
+          parentId,
+        },
+      },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(401);
+        expect(JSON.parse(body)).to.deep.equal({ error: 'Unauthorized' });
         done();
       }
     );
@@ -214,6 +279,21 @@ describe('Files Controller', () => {
         expect(JSON.parse(body)[0].type).to.equal(mockFiles[0].type);
         expect(JSON.parse(body)[0].isPublic).to.be.false;
         expect(JSON.parse(body)[0].parentId).to.equal(0);
+        done();
+      }
+    );
+  });
+
+  it('PUT /files/:id/publish with an invalid token', (done) => {
+    request.put(
+      `${URL}/files/${fileId}/publish`,
+      {
+        headers: { 'x-token': token + '5' },
+      },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(401);
+        expect(JSON.parse(body)).to.deep.equal({ error: 'Unauthorized' });
         done();
       }
     );
@@ -248,6 +328,21 @@ describe('Files Controller', () => {
         expect(res.statusCode).to.equal(200);
         expect(res.headers['content-type']).to.contain('text/plain');
         expect(body.length).to.be.greaterThan(0);
+        done();
+      }
+    );
+  });
+
+  it('PUT /files/:id/unpublish with an invalid token', (done) => {
+    request.put(
+      `${URL}/files/${fileId}/unpublish`,
+      {
+        headers: { 'x-token': token + '5' },
+      },
+      (err, res, body) => {
+        expect(err).to.be.null;
+        expect(res.statusCode).to.equal(401);
+        expect(JSON.parse(body)).to.deep.equal({ error: 'Unauthorized' });
         done();
       }
     );
