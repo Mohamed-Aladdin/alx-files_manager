@@ -43,7 +43,7 @@ describe('Users Controller', () => {
       (err, res, body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(400);
-        expect(JSON.parse(body)).to.deep.equal({ error: 'Already exist' });
+        expect(body).to.deep.equal({ error: 'Already exist' });
         done();
       }
     );
