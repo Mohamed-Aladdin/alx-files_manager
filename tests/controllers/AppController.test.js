@@ -31,15 +31,6 @@ describe('App Controller', () => {
     });
   });
 
-  it('GET /status when both services are down', (done) => {
-    request.get(`${URL}/status`, (err, res, body) => {
-      expect(err).to.not.be.null;
-      expect(res.statusCode).to.not.equal(200);
-      expect(JSON.parse(body)).to.deep.equal({ redis: false, db: false });
-      done();
-    });
-  });
-
   it('GET /stats', (done) => {
     request.get(`${URL}/stats`, (err, res, body) => {
       expect(err).to.be.null;
@@ -74,5 +65,14 @@ describe('App Controller', () => {
           .catch((deleteErr) => done(deleteErr));
       })
       .catch((connectErr) => done(connectErr));
+  });
+
+  it('GET /status after a change in the DB', (done) => {
+    request.get(`${URL}/status`, (err, res, body) => {
+      expect(err).to.be.null;
+      expect(res.statusCode).to.equal(200);
+      expect(JSON.parse(body)).to.deep.equal({ redis: true, db: true });
+      done();
+    });
   });
 });
