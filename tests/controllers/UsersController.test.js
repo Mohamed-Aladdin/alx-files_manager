@@ -36,14 +36,14 @@ describe('Users Controller', () => {
     );
   });
 
-  it('POST /users', (done) => {
+  it('POST /users with a user that already exists', (done) => {
     request.post(
       `${URL}/users`,
       { json: { email: mockUser.email, password: mockUser.password } },
       (err, res, body) => {
         expect(err).to.be.null;
         expect(res.statusCode).to.equal(400);
-        expect(JSON.parse(body)).to.equal({ error: 'Already exist' });
+        expect(JSON.parse(body)).to.deep.equal({ error: 'Already exist' });
         done();
       }
     );
